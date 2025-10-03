@@ -20,7 +20,7 @@ services:
     networks:
       - postgres_bd
   db:
-    container_name: postgres13333
+    container_name: postgres13
     image: postgres:13
     environment:
       - POSTGRES_DB=postgres
