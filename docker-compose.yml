@@ -1,0 +1,43 @@
+services:
+  odoo:
+    build:
+      context: .
+    container_name: odoo18
+    # command: odoo -d pys -u pys_project_inventory
+    depends_on:
+      - db
+    ports:
+      - 8018:8069
+    volumes:
+      - web:/var/lib/odoo
+      - ./config:/etc/odoo
+      - ./enterprise:/mnt/extra-addons
+      - ./custom:/mnt/custom-addons
+      - ./odoo-venezuela:/mnt/l10n_ve
+    environment:
+      - PYTHONUNBUFFERED=0
+    # restart: always
+    networks:
+      - postgres_bd
+  db:
+    container_name: postgres13333
+    image: postgres:13
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_PASSWORD=odoo
+      - POSTGRES_USER=odoo
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - ./db:/var/lib/postgresql/data/pgdata
+    # restart: always
+    networks:
+      - postgres_bd
+    ports:
+      - 5432:5432
+
+networks:
+  postgres_bd:
+
+volumes:
+  web:
+  db:
